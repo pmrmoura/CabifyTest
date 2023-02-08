@@ -12,6 +12,7 @@ final class HomeViewModel {
     // MARK: Properties
     
     let snapshot: CurrentValueSubject<NSDiffableDataSourceSnapshot<Section, CellType>, Never> = CurrentValueSubject(NSDiffableDataSourceSnapshot())
+    let checkoutButtonPublisher = PassthroughSubject<Cart, Never>()
     
     // MARK: Private properties
     
@@ -22,7 +23,9 @@ final class HomeViewModel {
     }
     
     private var cart = Cart()
+    private var products: [Product] = []
     
+    // TODO: See a better place for this func
     private func updateSnapshot() {
         var snapshot = NSDiffableDataSourceSnapshot<Section, CellType>()
         snapshot.appendSections([.first])
@@ -33,7 +36,43 @@ final class HomeViewModel {
 
 extension HomeViewModel {
     func fetchData() {
-        cells = [.product(viewModel: ProductTableViewCellViewModel()), .product(viewModel: ProductTableViewCellViewModel()), .product(viewModel: ProductTableViewCellViewModel())]
+        ProductService
+            .getAllProducts { [weak self] result in
+                switch result {
+                case .success(let products):
+                    self?.products = products
+                    self?.cells = self?.makeCells() ?? []
+                case .failure(let failure):
+                    print(failure.localizedDescription)
+                }
+            }
+    }
+    
+    func executeCartOperation(_ operation: ProductTableViewCellViewModel.ProductCartOperation) {
+        switch operation {
+        case .addProduct(let product):
+            cart.addProduct(product)
+        case .removeProduct(let product):
+            print(product)
+        }
+    }
+    
+    func checkoutButtonClicked() {
+        checkoutButtonPublisher.send(cart)
+    }
+    
+    private func makeCells() -> [CellType] {
+        var cells: [CellType] = []
+        
+        products.forEach {
+            cells.append(.product(viewModel: makeProductTableViewCellViewModel(product: $0)))
+        }
+        
+        return cells
+    }
+    
+    private func makeProductTableViewCellViewModel(product: Product) -> ProductTableViewCellViewModel {
+        ProductTableViewCellViewModel(product: product)
     }
 }
 
@@ -49,6 +88,7 @@ extension HomeViewModel {
     }
     
     enum State {
+        // TODO: Implement State and the loading case
         case idle,
              error
     }

@@ -43,6 +43,7 @@ class AppCoordinator: RootViewCoordinator {
     /// Starts the coordinator
     func start() {
         let homeCoordinator = HomeCoordinator()
+        homeCoordinator.start()
         addChildCoordinator(homeCoordinator)
         setCurrentCoordinator(homeCoordinator)
     }

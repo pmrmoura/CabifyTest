@@ -5,8 +5,8 @@
 //  Created by Pedro Moura on 02/02/23.
 //
 
-import Foundation
 import UIKit
+import Combine
 
 final class HomeCoordinator: RootViewCoordinator {
     
@@ -16,12 +16,27 @@ final class HomeCoordinator: RootViewCoordinator {
     }
     
     private var navigationController: UINavigationController = {
-        let viewModel = HomeViewModel()
-        let viewController = HomeViewController(viewModel: viewModel)
-        let navigationController = UINavigationController(rootViewController: viewController)
+        let navigationController = UINavigationController()
         return navigationController
     }()
     
-    func start() {}
+    private var cancelBag = Set<AnyCancellable>()
+    
+    func start() {
+        let viewModel = HomeViewModel()
+        viewModel.checkoutButtonPublisher
+            .sink(receiveValue: { [weak self] cart in
+                self?.navigateToCheckoutController(cart: cart)
+            })
+            .store(in: &cancelBag)
+        let viewController = HomeViewController(viewModel: viewModel)
+        navigationController.pushViewController(viewController, animated: false)
+    }
+    
+    private func navigateToCheckoutController(cart: Cart) {
+        let viewModel = CheckoutViewModel(cart: cart)
+        let controller = CheckoutViewController(viewModel: viewModel)
+        navigationController.pushViewController(controller, animated: true)
+    }
 }
 

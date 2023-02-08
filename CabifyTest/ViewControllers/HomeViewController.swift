@@ -18,6 +18,7 @@ final class HomeViewController: UIViewController {
     private var tableView: UITableView {
         tableViewController.tableView
     }
+    private lazy var checkoutButton = makeCheckoutButton()
     
     private var cancelBag = Set<AnyCancellable>()
     
@@ -47,10 +48,25 @@ extension HomeViewController {
     private func setupView() {
         addChild(tableViewController)
         tableViewController.didMove(toParent: self)
+        tableViewController.tableView.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(tableViewController.view)
-        tableView.pin(to: view, top: 0, left: 0, bottom: 0, right: 0)
-    }
+        view.addSubview(checkoutButton)
+        
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: checkoutButton.topAnchor),
+            
+            checkoutButton.topAnchor.constraint(equalTo: tableView.bottomAnchor),
+            checkoutButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            checkoutButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            checkoutButton.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+
+            checkoutButton.heightAnchor.constraint(equalToConstant: 80)
+        ])
+            }
     
     private func setupBindings() {}
     
@@ -76,7 +92,21 @@ extension HomeViewController {
 extension HomeViewController {
     private func cellForProductTableViewCellViewModel(viewModel: ProductTableViewCellViewModel, forIndexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeue(cellClass: ProductTableViewCell.self, indexPath: forIndexPath)
+        cell.render(viewModel: viewModel)
+        viewModel.productOperationPublisher
+            .sink(receiveValue: { [weak self] operation in
+                self?.viewModel.executeCartOperation(operation)
+            })
+            .store(in: &cancelBag)
         return cell
+    }
+}
+
+// MARK: - Actions
+
+extension HomeViewController {
+    @objc private func checkoutButtonClicked() {
+        viewModel.checkoutButtonClicked()
     }
 }
 
@@ -103,6 +133,16 @@ extension HomeViewController {
         controller.tableView.separatorStyle = .none
         controller.tableView.accessibilityIdentifier = "UITableViewController[1]"
         return controller
+    }
+    
+    private func makeCheckoutButton() -> UIButton {
+        var buttonConfiguration = UIButton.Configuration.filled()
+        buttonConfiguration.title = "Checkout"
+        buttonConfiguration.baseBackgroundColor = UIColor.purple
+        let button = UIButton(configuration: buttonConfiguration)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(checkoutButtonClicked), for: .touchUpInside)
+        return button
     }
     
     private func makeDiffableDataSource() -> UITableViewDiffableDataSource<HomeViewModel.Section, CellType> {

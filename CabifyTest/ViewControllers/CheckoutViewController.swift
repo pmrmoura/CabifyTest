@@ -13,7 +13,7 @@ final class CheckoutViewController: UIViewController {
     
     required init(viewModel: CheckoutViewModel) {
         self.viewModel = viewModel
-        super.init()
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {

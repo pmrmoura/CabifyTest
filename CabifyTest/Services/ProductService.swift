@@ -32,7 +32,7 @@ final class ProductService {
                 completion(.success(products.products))
             } catch let error {
                 print(#function, "🧨 Request: \(request)\nError: \(error)")
-                completion(.failure(error))å
+                completion(.failure(error))
             }
         }.resume()
     }
