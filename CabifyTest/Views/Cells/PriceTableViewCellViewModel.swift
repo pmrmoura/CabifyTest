@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-class PriceTableViewCellViewModel: ViewModelHashable {
+final class PriceTableViewCellViewModel: ViewModelHashable {
     let priceType: CurrentValueSubject<CheckoutViewModel.Prices, Never>
     
     init(priceType: CheckoutViewModel.Prices) {

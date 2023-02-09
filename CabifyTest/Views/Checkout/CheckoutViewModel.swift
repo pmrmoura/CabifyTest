@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-class CheckoutViewModel {
+final class CheckoutViewModel {
     // MARK: Properties
     let snapshot: CurrentValueSubject<NSDiffableDataSourceSnapshot<Section, CellType>, Never> = CurrentValueSubject(NSDiffableDataSourceSnapshot())
     

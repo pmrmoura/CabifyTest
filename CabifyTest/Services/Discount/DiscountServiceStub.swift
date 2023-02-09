@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-class DiscountServiceStub: DiscountServiceInterface {
+final class DiscountServiceStub: DiscountServiceInterface {
     func fetchAllDiscounts() -> AnyPublisher<[Discount], Error> {
         Bundle.main.url(forResource: "Discounts", withExtension: "json")
             .publisher

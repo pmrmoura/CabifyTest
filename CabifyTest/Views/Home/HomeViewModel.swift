@@ -26,7 +26,7 @@ final class HomeViewModel {
     }
 
     private var cancelBag = Set<AnyCancellable>()
-    private var products: [Product] = []
+    var products: [Product] = []
     
     init(service: ProductServiceInterface = ProductService(),
          cart: Cart = Cart()) {
@@ -63,7 +63,9 @@ extension HomeViewModel {
                     break
                 }
             }, receiveValue: { [weak self] result in
+                print(result)
                 self?.products = result
+                print(self?.products)
                 self?.cells = self?.makeCells() ?? []
             })
             .store(in: &cancelBag)

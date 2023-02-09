@@ -32,9 +32,9 @@ final class Cart {
         products.isEmpty
     }
     
-    func addProduct(_ product: Product) {
-        products.append(product)
-        productsMap[product.code, default: 0] += 1
+    func addProduct(_ product: Product, _ quantity: Double = 1) {
+        products.append(contentsOf: repeatElement(product, count: Int(quantity)))
+        productsMap[product.code, default: 0] += quantity
     }
     
     func removeProduct(_ product: Product) {
@@ -44,10 +44,6 @@ final class Cart {
         if productsMap[product.code] == 0 {
             productsMap.removeValue(forKey: product.code)
         }
-    }
-    
-    func calculateSubtotal() -> Double {
-        return products.reduce(0) { $0 + $1.price }
     }
     
     func fetchActiveDiscounts() {
@@ -60,8 +56,8 @@ final class Cart {
             .store(in: &cancelBag)
     }
     
-    func calculateFinalPrice() -> Double {
-        calculateSubtotal() - calculateDiscount()
+    func calculateSubtotal() -> Double {
+        return products.reduce(0) { $0 + $1.price }
     }
     
     func calculateDiscount() -> Double {
@@ -80,5 +76,9 @@ final class Cart {
             }
         }
         return discount
+    }
+    
+    func calculateFinalPrice() -> Double {
+        calculateSubtotal() - calculateDiscount()
     }
 }

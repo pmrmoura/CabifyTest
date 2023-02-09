@@ -2,36 +2,44 @@ import XCTest
 import Combine
 @testable import CabifyTest
 
-final class HomeViewModelTests: XCTestCase {
+final class HomeViewModelTest: XCTestCase {
     
     private var viewModel: HomeViewModel!
-    private var subscriptions = [AnyCancellable]()
+    let productTest = Product(code: "TEST", name: "Test Product", price: 15)
     
     override func setUp() {
         super.setUp()
-        viewModel = HomeViewModel()
+        viewModel = HomeViewModel(service: ProductServiceStub(), cart: Cart(service: DiscountServiceStub()))
     }
     
     override func tearDown() {
         viewModel = nil
-        subscriptions = []
         super.tearDown()
     }
     
     
     func testExecuteCartOperationAddProduct() {
-//        let product = Product(code: "dede", name: "pedro", price: 91.0)
-//        viewModel.executeCartOperation(.addProduct(product: product))
-//
-//        XCTAssertTrue(viewModel.cart.products.contains(product))
+        viewModel.executeCartOperation(.addProduct(product: productTest))
         
-        let discountService = DiscountServiceStub()
-        discountService.fetchAllDiscounts()
-            .sink(receiveCompletion: {result in
-                print(result)
-            }, receiveValue: { result in
-                print(result)
-            })
-            .store(in: &subscriptions)
+        XCTAssert(viewModel.cart.products.contains(productTest))
+    }
+    
+    func testExecuteCartOperationRemoveProduct() {
+        viewModel.executeCartOperation(.addProduct(product: productTest))
+        
+        XCTAssert(viewModel.cart.products.contains(productTest))
+        
+        viewModel.executeCartOperation(.removeProduct(product: productTest))
+        
+        XCTAssertFalse(viewModel.cart.products.contains(productTest))
+    }
+    
+    func testFetchData() {
+        viewModel.fetchData()
+        
+        let waiter = XCTWaiter()
+        waiter.wait(for: [XCTestExpectation(description: "fetchData")], timeout: 0.1)
+        
+        XCTAssertEqual(3, viewModel.products.count)
     }
 }

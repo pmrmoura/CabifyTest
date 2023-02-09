@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-class PriceTableViewCell: UITableViewCell {
+final class PriceTableViewCell: UITableViewCell {
     private var viewModel: PriceTableViewCellViewModel?
     private var cancelBag = Set<AnyCancellable>()
     

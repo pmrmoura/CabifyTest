@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-class ProductTableViewCellViewModel: ViewModelHashable {
+final class ProductTableViewCellViewModel: ViewModelHashable {
     // MARK: - Private properties
     let product: CurrentValueSubject<Product, Never>
     let productOperationPublisher = PassthroughSubject<ProductCartOperation, Never>()

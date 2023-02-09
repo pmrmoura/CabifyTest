@@ -11,7 +11,7 @@ struct DiscountResponse: Codable {
     let discounts: [Discount]
 }
 
-class Discount: Codable {
+final class Discount: Codable {
     let numberOfPiecesNeeded: Double
     let discountReceived: Double
     let discountType: String
