@@ -24,19 +24,31 @@ class PriceTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    enum Constants {
+        static let totalTitle = "Total"
+        static let subtotalTitle = "Subtotal"
+        static let discountTitle = "Discount"
+    }
 }
 
 // MARK: - Setup
 
 extension PriceTableViewCell {
-    func setupView() {
-        // TODO: Review this layout // DONE
+    private func setupView() {
         selectionStyle = .none
         
+        setupViewHierarchy()
+        setupConstraints()
+    }
+    
+    private func setupViewHierarchy() {
         contentView.addSubview(titleLabel)
         contentView.addSubview(priceLabel)
         contentView.addSubview(separatorView)
+    }
     
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 24),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
@@ -52,18 +64,18 @@ extension PriceTableViewCell {
         ])
     }
     
-    func setupBindings() {
+    private func setupBindings() {
         viewModel?.priceType
             .sink(receiveValue: { [weak self] priceType in
                 switch priceType {
                 case .total(let price):
-                    self?.titleLabel.text = "Total"
+                    self?.titleLabel.text = Constants.totalTitle
                     self?.priceLabel.text = "$\(price)"
                 case .subtotal(let price):
-                    self?.titleLabel.text = "Subtotal"
+                    self?.titleLabel.text = Constants.subtotalTitle
                     self?.priceLabel.text = "$\(price)"
                 case .discount(let price):
-                    self?.titleLabel.text = "Discount"
+                    self?.titleLabel.text = Constants.discountTitle
                     self?.priceLabel.text = "$\(price)"
                 }
             })
@@ -74,20 +86,20 @@ extension PriceTableViewCell {
 // MARK: - Setup UI Elements
 
 extension PriceTableViewCell {
-    func makeTitleLabel() -> UILabel {
+    private func makeTitleLabel() -> UILabel {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }
     
-    func makePriceLabel() -> UILabel {
+    private func makePriceLabel() -> UILabel {
         let label = UILabel()
         label.textColor = .systemGreen
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }
     
-    func makeSeparatorView() -> UIView {
+    private func makeSeparatorView() -> UIView {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .lightGray

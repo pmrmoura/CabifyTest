@@ -8,11 +8,16 @@
 import Foundation
 
 final class Cart {
-    var products: [Product] = []
-    var productsMap: [String: Double] = [:]
-    var activeDiscounts: [Discount] = []
+    var products: [Product]
+    var productsMap: [String: Double]
+    var activeDiscounts: [Discount]
     
-    init() {
+    init(products: [Product] = [],
+         productsMap: [String: Double] = [:],
+         activeDiscounts: [Discount] = []) {
+        self.products = products
+        self.productsMap = productsMap
+        self.activeDiscounts = activeDiscounts
         fetchActiveDiscounts()
     }
     
@@ -54,19 +59,16 @@ final class Cart {
     func calculateDiscount() -> Double {
         var discount: Double = 0
         activeDiscounts.forEach {
-            let type = $0.discountTypeType
+            guard let type = $0.discountTypeEnum, let productCount = productsMap[$0.productCode] else { return }
             switch type {
             case .bulk:
-                if productsMap[$0.productCode] ?? 0 >= $0.numberOfPiecesNeeded {
-                    discount += (productsMap[$0.productCode] ?? 0) * $0.discountReceived
+                if productCount >= $0.numberOfPiecesNeeded {
+                    discount += productCount * $0.discountReceived
                 }
-            case .twoForOne:
-                let numberOfTimesWillBeApplied = (Int(productsMap[$0.productCode] ?? 0)) / Int($0.numberOfPiecesNeeded)
+            case .oneForFree:
+                let numberOfTimesWillBeApplied = (Int(productCount)) / Int($0.numberOfPiecesNeeded)
 
                 discount += Double(numberOfTimesWillBeApplied) * $0.discountReceived
-            case .none:
-                // TODO: ????
-                print("dede")
             }
         }
         return discount

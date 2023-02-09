@@ -21,26 +21,27 @@ class ProductTableViewCell: UITableViewCell {
 // MARK: - Setup
 
 extension ProductTableViewCell {
-    func setupView() {
-        // TODO: Review this layout // DONE
+    private func setupView() {
         contentView.subviews.forEach {
             $0.removeFromSuperview()
         }
         selectionStyle = .none
         
+        setupViewHierarchy()
+        setupConstraints()
+    }
+    
+    private func setupViewHierarchy() {
         contentView.addSubview(titleLabel)
         contentView.addSubview(priceLabel)
         contentView.addSubview(quantityLabel)
 
         if viewModel?.productCellType == .home {
             contentView.addSubview(quantityStepperView)
-            
-            NSLayoutConstraint.activate([
-                quantityStepperView.topAnchor.constraint(equalTo: titleLabel.topAnchor),
-                quantityStepperView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            ])
         }
-        
+    }
+    
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
@@ -49,14 +50,19 @@ extension ProductTableViewCell {
             priceLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
             priceLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
-            
-            
             quantityLabel.topAnchor.constraint(equalTo: titleLabel.topAnchor, constant: 4),
             quantityLabel.trailingAnchor.constraint(equalTo: viewModel?.productCellType == .home ? quantityStepperView.leadingAnchor : contentView.trailingAnchor, constant: -24)
         ])
+        
+        if viewModel?.productCellType == .home {
+            NSLayoutConstraint.activate([
+                quantityStepperView.topAnchor.constraint(equalTo: titleLabel.topAnchor),
+                quantityStepperView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            ])
+        }
     }
     
-    func setupBindings() {
+    private func setupBindings() {
         viewModel?.product
             .sink(receiveValue: { [weak self] product in
                 self?.titleLabel.text = product.name
@@ -75,7 +81,7 @@ extension ProductTableViewCell {
 // MARK: - Setup UI Elements
 
 extension ProductTableViewCell {
-    func makeTitleLabel() -> UILabel {
+    private func makeTitleLabel() -> UILabel {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
@@ -83,20 +89,20 @@ extension ProductTableViewCell {
         return label
     }
     
-    func makePriceLabel() -> UILabel {
+    private func makePriceLabel() -> UILabel {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }
     
-    func makeQuantityLabel() -> UILabel {
+    private func makeQuantityLabel() -> UILabel {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "0"
         return label
     }
     
-    func makeStepperView() -> UIStepper {
+    private func makeStepperView() -> UIStepper {
         let stepper = UIStepper()
         stepper.translatesAutoresizingMaskIntoConstraints = false
         stepper.minimumValue = 0
@@ -109,7 +115,7 @@ extension ProductTableViewCell {
 // MARK: - Actions
 
 extension ProductTableViewCell {
-    @objc func stepperValueChanged(_ sender: UIStepper) {
+    @objc private func stepperValueChanged(_ sender: UIStepper) {
         viewModel?.handleStepperClicked(value: sender.value)
     }
 }

@@ -12,18 +12,15 @@ struct DiscountResponse: Codable {
 }
 
 class Discount: Codable {
-    // TODO: Think in other names more significant // DONE
     let numberOfPiecesNeeded: Double
     let discountReceived: Double
     let discountType: String
     let productCode: String
-    
-    // TODO: Rename
-    lazy var discountTypeType = DiscountType(rawValue: discountType)
+
+    lazy var discountTypeEnum = DiscountType(rawValue: discountType)
     
     enum DiscountType: String {
-        // TODO: Change name for bulk discount and 2for1 discount // DONE
         case bulk,
-             twoForOne
+             oneForFree
     }
 }

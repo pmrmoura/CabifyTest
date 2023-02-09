@@ -48,13 +48,19 @@ extension HomeViewController {
     private func setupView() {
         view.backgroundColor = .white
         
+        setupViewHierarchy()
+        setupConstraints()
+    }
+    
+    private func setupViewHierarchy() {
         addChild(tableViewController)
         tableViewController.didMove(toParent: self)
-        tableViewController.tableView.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(tableViewController.view)
         view.addSubview(checkoutButton)
-        
+    }
+    
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -69,9 +75,7 @@ extension HomeViewController {
             checkoutButton.heightAnchor.constraint(equalToConstant: 80)
         ])
     }
-    
-    private func setupBindings() {}
-    
+        
     private func registerCells() {
         tableView
             .registerCell(cellClass: ProductTableViewCell.self)
@@ -133,6 +137,7 @@ extension HomeViewController {
         controller.tableView.rowHeight = UITableView.automaticDimension
         controller.tableView.estimatedRowHeight = UITableView.automaticDimension
         controller.tableView.separatorStyle = .none
+        controller.tableView.translatesAutoresizingMaskIntoConstraints = false
         return controller
     }
     

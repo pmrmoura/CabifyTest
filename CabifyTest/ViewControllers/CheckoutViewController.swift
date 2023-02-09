@@ -36,7 +36,6 @@ final class CheckoutViewController: UIViewController {
         super.viewDidLoad()
         registerCells()
         setupView()
-        setupBindings()
         setupTableViewSnapshotBinding()
         viewModel.makeCells()
     }
@@ -48,12 +47,19 @@ extension CheckoutViewController {
     private func setupView() {
         view.backgroundColor = .white
         
+        setupViewHierarchy()
+        setupConstraints()
+    }
+    
+    private func setupViewHierarchy() {
         addChild(tableViewController)
         tableViewController.didMove(toParent: self)
         tableViewController.tableView.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(tableViewController.view)
-        
+    }
+    
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -61,8 +67,6 @@ extension CheckoutViewController {
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
     }
-    
-    private func setupBindings() {}
     
     private func registerCells() {
         tableView.registerCell(cellClass: ProductTableViewCell.self)
@@ -120,8 +124,6 @@ extension CheckoutViewController {
         controller.tableView.rowHeight = UITableView.automaticDimension
         controller.tableView.estimatedRowHeight = UITableView.automaticDimension
         controller.tableView.separatorStyle = .none
-        // TODO: review
-        controller.tableView.accessibilityIdentifier = "UITableViewController[1]"
         return controller
     }
     

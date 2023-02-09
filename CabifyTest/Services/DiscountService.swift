@@ -8,7 +8,7 @@
 import Foundation
 
 final class DiscountService {
-    static var baseURL = "https://gist.githubusercontent.com/pmrmoura/83a724e28ec78cac9ea930068681c78b/raw/888ca2f3026916bd08c8057d7ae2f0f2f420a4dd/Discounts.json"
+    static var baseURL = "https://gist.githubusercontent.com/pmrmoura/83a724e28ec78cac9ea930068681c78b/raw/b4966a5d64b6482605c21217ef03e13c6f5ee72d/Discounts.json"
     
     static func getAllDiscounts(completion: @escaping (Result<[Discount], Error>) -> Void) {
         guard let url = URL(string: baseURL) else { return }

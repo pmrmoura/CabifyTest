@@ -38,12 +38,9 @@ extension CheckoutViewModel {
     func makeCells() {
         var cells: [CellType] = []
         
-        cart.productsMap.forEach { key, value in
-            // TODO: Refactor this shit
-            if let product = cart.products.first(where: {
-                $0.code == key
-            }) {
-                cells.append(.product(viewModel: makeProductTableViewCellViewModel(product: product, quantity: Int(value))))
+        cart.productsMap.forEach { productCode, productQuantity in
+            if let product = cart.products.first(where: { $0.code == productCode }) {
+                cells.append(.product(viewModel: makeProductTableViewCellViewModel(product: product, quantity: Int(productQuantity))))
             }
         }
         
@@ -74,12 +71,6 @@ extension CheckoutViewModel {
     
     enum Section: Hashable {
         case first
-    }
-    
-    enum State {
-        // TODO: Implement State and the loading case
-        case idle,
-             error
     }
     
     enum Prices {

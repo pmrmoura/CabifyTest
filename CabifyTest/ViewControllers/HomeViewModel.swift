@@ -91,11 +91,4 @@ extension HomeViewModel {
     enum Section: Hashable {
         case first
     }
-    
-    enum State {
-        // TODO: Implement State and the loading case
-        case idle,
-             loading,
-             error
-    }
 }
