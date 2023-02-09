@@ -3,4 +3,54 @@
    uuid = "6ABB41D1-CF16-45CB-AFF5-01262BAEBEED"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5836D38C-A0C4-432C-8359-CA94A23131FB"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CabifyTestTests/HomeViewModelTest.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
+            landmarkName = "testExecuteCartOperationAddProduct()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "5836D38C-A0C4-432C-8359-CA94A23131FB - a505f28160667e47"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (Swift.Array&lt;CabifyTest.Discount&gt;) -&gt; () in CabifyTestTests.HomeViewModelTests.testExecuteCartOperationAddProduct() -&gt; ()"
+                  moduleName = "CabifyTestTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/pedromoura/Documents/workspace/Personal/CabifyTest/CabifyTestTests/HomeViewModelTest.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "31"
+                  endingLineNumber = "31"
+                  offsetFromSymbolStart = "27">
+               </Location>
+               <Location
+                  uuid = "5836D38C-A0C4-432C-8359-CA94A23131FB - a505f28160667d81"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (Swift.Array&lt;CabifyTest.Discount&gt;) -&gt; () in CabifyTestTests.HomeViewModelTests.testExecuteCartOperationAddProduct() -&gt; ()"
+                  moduleName = "CabifyTestTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/pedromoura/Documents/workspace/Personal/CabifyTest/CabifyTestTests/HomeViewModelTest.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "33"
+                  endingLineNumber = "33"
+                  offsetFromSymbolStart = "27">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

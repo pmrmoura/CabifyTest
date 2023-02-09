@@ -14,6 +14,8 @@ final class HomeViewModel {
     let snapshot: CurrentValueSubject<NSDiffableDataSourceSnapshot<Section, CellType>, Never> = CurrentValueSubject(NSDiffableDataSourceSnapshot())
     let checkoutButtonPublisher = PassthroughSubject<Cart, Never>()
     let alertPublisher = PassthroughSubject<AlertInformation, Never>()
+    let service: ProductServiceInterface
+    var cart: Cart
     
     // MARK: Private properties
     
@@ -22,9 +24,15 @@ final class HomeViewModel {
             updateSnapshot()
         }
     }
-    
-    private var cart = Cart()
+
+    private var cancelBag = Set<AnyCancellable>()
     private var products: [Product] = []
+    
+    init(service: ProductServiceInterface = ProductService(),
+         cart: Cart = Cart()) {
+        self.service = service
+        self.cart = cart
+    }
     
     private func updateSnapshot() {
         var snapshot = NSDiffableDataSourceSnapshot<Section, CellType>()
@@ -44,17 +52,21 @@ final class HomeViewModel {
 
 extension HomeViewModel {
     func fetchData() {
-        ProductService
-            .getAllProducts { [weak self] result in
+        service.fetchAllProducts()
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { [weak self] result in
                 switch result {
-                case .success(let products):
-                    self?.products = products
-                    self?.cells = self?.makeCells() ?? []
-                case .failure(let failure):
-                    let alertInformation = AlertInformation(title: Constants.errorAlertTitle, message: failure.localizedDescription, buttonText: Constants.defaultAlertButtonText)
+                case .failure(let error):
+                    let alertInformation = AlertInformation(title: Constants.errorAlertTitle, message: error.localizedDescription, buttonText: Constants.defaultAlertButtonText)
                     self?.alertPublisher.send(alertInformation)
+                case .finished:
+                    break
                 }
-            }
+            }, receiveValue: { [weak self] result in
+                self?.products = result
+                self?.cells = self?.makeCells() ?? []
+            })
+            .store(in: &cancelBag)
     }
     
     func executeCartOperation(_ operation: ProductTableViewCellViewModel.ProductCartOperation) {

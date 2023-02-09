@@ -6,18 +6,25 @@
 //
 
 import Foundation
+import Combine
 
 final class Cart {
     var products: [Product]
     var productsMap: [String: Double]
     var activeDiscounts: [Discount]
     
+    let service: DiscountServiceInterface
+    
+    private var cancelBag = Set<AnyCancellable>()
+    
     init(products: [Product] = [],
          productsMap: [String: Double] = [:],
-         activeDiscounts: [Discount] = []) {
+         activeDiscounts: [Discount] = [],
+         service: DiscountServiceInterface = DiscountService()) {
         self.products = products
         self.productsMap = productsMap
         self.activeDiscounts = activeDiscounts
+        self.service = service
         fetchActiveDiscounts()
     }
     
@@ -44,16 +51,13 @@ final class Cart {
     }
     
     func fetchActiveDiscounts() {
-        DiscountService
-            .getAllDiscounts(completion: { [weak self] result in
-                switch result {
-                case .success(let discount):
-                    self?.activeDiscounts = discount
-                    print(discount)
-                case .failure(let error):
-                    print(error)
-                }
+        service.fetchAllDiscounts()
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { _ in },
+                  receiveValue: { [weak self] result in
+                self?.activeDiscounts = result
             })
+            .store(in: &cancelBag)
     }
     
     func calculateFinalPrice() -> Double {

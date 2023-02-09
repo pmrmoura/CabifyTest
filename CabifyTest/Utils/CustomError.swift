@@ -7,7 +7,7 @@
 
 import Foundation
 enum CustomError {
-    case noConnection, noData
+    case noConnection, noData, invalidURL
 }
 
 extension CustomError: LocalizedError {
@@ -15,6 +15,7 @@ extension CustomError: LocalizedError {
         switch self {
         case .noData: return "Well, weird thing happens"
         case .noConnection: return "No Internet Connection"
+        case .invalidURL: return "There was a problem with the URL"
         }
     }
 }
