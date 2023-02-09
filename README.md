@@ -5,6 +5,8 @@ In this project two ViewControllers were needed:
 - HomeViewController, where the user can add and remove products from the Cart
 - CheckoutViewController, where the user can see the final price as well as the discount applied.
 
+The project uses Swift 5, Xcode 14.2, Combine, UIKit, MVVM-C as these are the ones I'm most familliar with. But I enjoy learning and quickly can grasp any tech used by the team.
+
 # Demo:
 I recorded a quick video showing the whole app:
 
@@ -38,7 +40,3 @@ A idea to make this even easier to use is by integrating it into a BackOffice sy
 # Cart
 
 With the Single Responsability Principle in mind, I created a separate class "Cart" responsible for all the operations(adding, removing, calculatingPrices). Also in the Cart is where the Discounts are applied.
-
-# Stack
-
-The project uses Swift, Combine and UIKit as these are the ones I'm most familliar with. But I enjoy learning and quickly can grasp any tech used by the team.
