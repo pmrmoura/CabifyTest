@@ -77,7 +77,7 @@ extension HomeViewModel {
     }
     
     private func makeProductTableViewCellViewModel(product: Product) -> ProductTableViewCellViewModel {
-        ProductTableViewCellViewModel(product: product)
+        ProductTableViewCellViewModel(product: product, productCellType: .home)
     }
 }
 
@@ -95,6 +95,7 @@ extension HomeViewModel {
     enum State {
         // TODO: Implement State and the loading case
         case idle,
+             loading,
              error
     }
 }

@@ -18,6 +18,7 @@ class Discount: Codable {
     let discountType: String
     let productCode: String
     
+    // TODO: Rename
     lazy var discountTypeType = DiscountType(rawValue: discountType)
     
     enum DiscountType: String {

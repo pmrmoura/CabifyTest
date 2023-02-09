@@ -15,10 +15,7 @@ final class HomeCoordinator: RootViewCoordinator {
         return navigationController
     }
     
-    private var navigationController: UINavigationController = {
-        let navigationController = UINavigationController()
-        return navigationController
-    }()
+    private var navigationController = UINavigationController()
     
     private var cancelBag = Set<AnyCancellable>()
     

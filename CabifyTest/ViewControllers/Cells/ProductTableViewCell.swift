@@ -16,15 +16,6 @@ class ProductTableViewCell: UITableViewCell {
     private lazy var priceLabel = makePriceLabel()
     private lazy var quantityStepperView = makeStepperView()
     private lazy var quantityLabel = makeQuantityLabel()
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: .default, reuseIdentifier: nil)
-        setupView()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 }
 
 // MARK: - Setup
@@ -32,12 +23,23 @@ class ProductTableViewCell: UITableViewCell {
 extension ProductTableViewCell {
     func setupView() {
         // TODO: Review this layout // DONE
+        contentView.subviews.forEach {
+            $0.removeFromSuperview()
+        }
         selectionStyle = .none
         
         contentView.addSubview(titleLabel)
         contentView.addSubview(priceLabel)
         contentView.addSubview(quantityLabel)
-        contentView.addSubview(quantityStepperView)
+
+        if viewModel?.productCellType == .home {
+            contentView.addSubview(quantityStepperView)
+            
+            NSLayoutConstraint.activate([
+                quantityStepperView.topAnchor.constraint(equalTo: titleLabel.topAnchor),
+                quantityStepperView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            ])
+        }
         
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
@@ -47,11 +49,10 @@ extension ProductTableViewCell {
             priceLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
             priceLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
-            quantityStepperView.topAnchor.constraint(equalTo: titleLabel.topAnchor),
-            quantityStepperView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            
             
             quantityLabel.topAnchor.constraint(equalTo: titleLabel.topAnchor, constant: 4),
-            quantityLabel.trailingAnchor.constraint(equalTo: quantityStepperView.leadingAnchor, constant: -24)
+            quantityLabel.trailingAnchor.constraint(equalTo: viewModel?.productCellType == .home ? quantityStepperView.leadingAnchor : contentView.trailingAnchor, constant: -24)
         ])
     }
     
@@ -122,5 +123,6 @@ extension ProductTableViewCell {
         
         cancelBag = Set<AnyCancellable>()
         setupBindings()
+        setupView()
     }
 }

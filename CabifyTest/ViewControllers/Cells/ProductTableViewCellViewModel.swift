@@ -13,11 +13,12 @@ class ProductTableViewCellViewModel: ViewModelHashable {
     let product: CurrentValueSubject<Product, Never>
     let productOperationPublisher = PassthroughSubject<ProductCartOperation, Never>()
     let productCount: CurrentValueSubject<Int, Never>
+    let productCellType: ProductCellType
     
-    
-    init(product: Product, productCount: Int = 0) {
+    init(product: Product, productCount: Int = 0, productCellType: ProductCellType) {
         self.product = CurrentValueSubject(product)
         self.productCount = CurrentValueSubject(productCount)
+        self.productCellType = productCellType
     }
     
     // MARK: - Enums
@@ -25,6 +26,11 @@ class ProductTableViewCellViewModel: ViewModelHashable {
     enum ProductCartOperation {
         case addProduct(product: Product),
              removeProduct(product: Product)
+    }
+    
+    enum ProductCellType {
+        case home,
+             checkout
     }
 }
 

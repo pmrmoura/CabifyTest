@@ -125,7 +125,7 @@ extension HomeViewController {
     }
 }
 
-// MARK: - Setup UI Components
+// MARK: - Setup components
 
 extension HomeViewController {
     private func makeTableViewController() -> UITableViewController {

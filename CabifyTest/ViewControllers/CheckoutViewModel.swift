@@ -55,7 +55,7 @@ extension CheckoutViewModel {
     }
     
     private func makeProductTableViewCellViewModel(product: Product, quantity: Int) -> ProductTableViewCellViewModel {
-        ProductTableViewCellViewModel(product: product, productCount: quantity)
+        ProductTableViewCellViewModel(product: product, productCount: quantity, productCellType: .checkout)
     }
     
     private func makePriceTableViewCellViewModel(price: Prices) -> PriceTableViewCellViewModel {
