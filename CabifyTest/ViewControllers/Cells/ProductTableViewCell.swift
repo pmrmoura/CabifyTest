@@ -31,7 +31,7 @@ class ProductTableViewCell: UITableViewCell {
 
 extension ProductTableViewCell {
     func setupView() {
-        // TODO: Review this layout
+        // TODO: Review this layout // DONE
         selectionStyle = .none
         
         contentView.addSubview(titleLabel)
@@ -60,6 +60,12 @@ extension ProductTableViewCell {
             .sink(receiveValue: { [weak self] product in
                 self?.titleLabel.text = product.name
                 self?.priceLabel.text = "$\(product.price)"
+            })
+            .store(in: &cancelBag)
+        
+        viewModel?.productCount
+            .sink(receiveValue: { [weak self] number in
+                self?.quantityLabel.text = "\(number)"
             })
             .store(in: &cancelBag)
     }
@@ -103,9 +109,7 @@ extension ProductTableViewCell {
 
 extension ProductTableViewCell {
     @objc func stepperValueChanged(_ sender: UIStepper) {
-        // TODO: Rethink how the label gets the value
-        quantityLabel.text = "\(Int(sender.value))"
-        viewModel?.productOperation(.addProduct(product: (viewModel?.product.value)!))
+        viewModel?.handleStepperClicked(value: sender.value)
     }
 }
 

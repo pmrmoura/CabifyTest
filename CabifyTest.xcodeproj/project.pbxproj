@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C104F68F2994608200D68493 /* PriceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C104F68E2994608200D68493 /* PriceTableViewCell.swift */; };
+		C104F6912994608E00D68493 /* PriceTableViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C104F6902994608E00D68493 /* PriceTableViewCellViewModel.swift */; };
+		C104F6932994842200D68493 /* DiscountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C104F6922994842200D68493 /* DiscountService.swift */; };
 		C125C9C0298C18FA00A38A7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C125C9BF298C18FA00A38A7C /* AppDelegate.swift */; };
 		C125C9CA298C18FA00A38A7C /* CabifyTest.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C125C9C8298C18FA00A38A7C /* CabifyTest.xcdatamodeld */; };
 		C125C9CC298C18FC00A38A7C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C125C9CB298C18FC00A38A7C /* Assets.xcassets */; };
@@ -53,6 +56,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C104F68E2994608200D68493 /* PriceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceTableViewCell.swift; sourceTree = "<group>"; };
+		C104F6902994608E00D68493 /* PriceTableViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceTableViewCellViewModel.swift; sourceTree = "<group>"; };
+		C104F6922994842200D68493 /* DiscountService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscountService.swift; sourceTree = "<group>"; };
 		C125C9BC298C18FA00A38A7C /* CabifyTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CabifyTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C125C9BF298C18FA00A38A7C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C125C9C9298C18FA00A38A7C /* CabifyTest.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CabifyTest.xcdatamodel; sourceTree = "<group>"; };
@@ -168,6 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				C125C9F3298C2D1700A38A7C /* ProductService.swift */,
+				C104F6922994842200D68493 /* DiscountService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -219,6 +226,8 @@
 			children = (
 				C1D55D1C298DC9B400B53CAF /* ProductTableViewCell.swift */,
 				C1D55D1E298DC9D200B53CAF /* ProductTableViewCellViewModel.swift */,
+				C104F68E2994608200D68493 /* PriceTableViewCell.swift */,
+				C104F6902994608E00D68493 /* PriceTableViewCellViewModel.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -374,6 +383,7 @@
 			files = (
 				C1D55D26298DCEEF00B53CAF /* ViewModelHashable.swift in Sources */,
 				C1D55D1F298DC9D200B53CAF /* ProductTableViewCellViewModel.swift in Sources */,
+				C104F6932994842200D68493 /* DiscountService.swift in Sources */,
 				C125C9FD298C8CC800A38A7C /* Coordinator.swift in Sources */,
 				C125C9F4298C2D1700A38A7C /* ProductService.swift in Sources */,
 				C125C9FA298C8A7900A38A7C /* ProductModels.swift in Sources */,
@@ -385,9 +395,11 @@
 				C125C9FF298C8CE200A38A7C /* AppCoordinator.swift in Sources */,
 				C125CA01298C8CEB00A38A7C /* HomeCoordinator.swift in Sources */,
 				C125CA0C298C8E4000A38A7C /* CheckoutViewModel.swift in Sources */,
+				C104F68F2994608200D68493 /* PriceTableViewCell.swift in Sources */,
 				C1D55D1D298DC9B400B53CAF /* ProductTableViewCell.swift in Sources */,
 				C125CA08298C8D3600A38A7C /* HomeViewModel.swift in Sources */,
 				C1D55D28298DD13B00B53CAF /* UIView.swift in Sources */,
+				C104F6912994608E00D68493 /* PriceTableViewCellViewModel.swift in Sources */,
 				C125CA03298C8CFE00A38A7C /* RootViewCoordinator.swift in Sources */,
 				C1D55D22298DCC5700B53CAF /* UITableView.swift in Sources */,
 				C125C9F7298C89CD00A38A7C /* CustomError.swift in Sources */,

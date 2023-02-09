@@ -17,55 +17,58 @@ final class Cart {
     }
     
     func addProduct(_ product: Product) {
-        // TODO: Add function here to check if the user won a discount or is about to win when add a product
         products.append(product)
-        if let productCode = productsMap[product.code] {
-            productsMap[product.code] = productCode + 1
-        } else {
-            productsMap[product.code] = 1
-        }
+        productsMap[product.code, default: 0] += 1
     }
     
     func removeProduct(_ product: Product) {
-//        if let index = products.firstIndex(of: product) {
-//            products.remove(at: index)
-//        }
+        guard let index = products.firstIndex(of: product) else { return }
+        products.remove(at: index)
+        productsMap[product.code, default: 0] -= 1
+        if productsMap[product.code] == 0 {
+            productsMap.removeValue(forKey: product.code)
+        }
     }
     
-    func clearCart() {
-        products.removeAll()
-    }
-    
-    func calculateFinalPrice() -> Double {
+    func calculateSubtotal() -> Double {
         return products.reduce(0) { $0 + $1.price }
     }
     
     func fetchActiveDiscounts() {
-        let twoForOneDiscount = Discount(condition: 2, reduction: 5, discountType: .unique, productCode: "VOUCHER")
-        let bulkDiscount = Discount(condition: 3, reduction: 1, discountType: .perUnit, productCode: "TSHIRT")
-        
-        activeDiscounts = [twoForOneDiscount, bulkDiscount]
+        DiscountService
+            .getAllDiscounts(completion: { [weak self] result in
+                switch result {
+                case .success(let discount):
+                    self?.activeDiscounts = discount
+                    print(discount)
+                case .failure(let error):
+                    print(error)
+                }
+            })
     }
     
-    func applyDiscounts() {
-        // TODO: Refactor this crap
-        var totalPrice = calculateFinalPrice()
+    func calculateFinalPrice() -> Double {
+        calculateSubtotal() - calculateDiscount()
+    }
+    
+    func calculateDiscount() -> Double {
+        var discount: Double = 0
         activeDiscounts.forEach {
-            var newPrice: Double
-            switch $0.discountType {
-            case .perUnit:
-                if productsMap[$0.productCode] ?? 0 >= $0.condition {
-                    newPrice = totalPrice - (productsMap[$0.productCode] ?? 0) * $0.reduction
-                    totalPrice = newPrice
-                    print(newPrice)
+            let type = $0.discountTypeType
+            switch type {
+            case .bulk:
+                if productsMap[$0.productCode] ?? 0 >= $0.numberOfPiecesNeeded {
+                    discount += (productsMap[$0.productCode] ?? 0) * $0.discountReceived
                 }
-            case .unique:
-                let numberOfTimesWillBeApplied = (Int(productsMap[$0.productCode] ?? 0)) / Int($0.condition)
+            case .twoForOne:
+                let numberOfTimesWillBeApplied = (Int(productsMap[$0.productCode] ?? 0)) / Int($0.numberOfPiecesNeeded)
 
-                newPrice = totalPrice - Double(numberOfTimesWillBeApplied) * $0.reduction
-                totalPrice = newPrice
-                print(newPrice)
+                discount += Double(numberOfTimesWillBeApplied) * $0.discountReceived
+            case .none:
+                // TODO: ????
+                print("dede")
             }
         }
+        return discount
     }
 }

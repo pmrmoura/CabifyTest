@@ -12,9 +12,12 @@ class ProductTableViewCellViewModel: ViewModelHashable {
     // MARK: - Private properties
     let product: CurrentValueSubject<Product, Never>
     let productOperationPublisher = PassthroughSubject<ProductCartOperation, Never>()
+    let productCount: CurrentValueSubject<Int, Never>
     
-    init(product: Product) {
+    
+    init(product: Product, productCount: Int = 0) {
         self.product = CurrentValueSubject(product)
+        self.productCount = CurrentValueSubject(productCount)
     }
     
     // MARK: - Enums
@@ -26,7 +29,18 @@ class ProductTableViewCellViewModel: ViewModelHashable {
 }
 
 extension ProductTableViewCellViewModel {
-    func productOperation(_ operation: ProductCartOperation) {
-        productOperationPublisher.send(operation)
+    private func executeProductOperation(value: Int) {
+        guard productCount.value > value else {
+            productOperationPublisher.send(.addProduct(product: product.value))
+            return
+        }
+        productOperationPublisher.send(.removeProduct(product: product.value))
+    }
+    
+    func handleStepperClicked(value: Double) {
+        let intValue = Int(value)
+        
+        executeProductOperation(value: intValue)
+        productCount.send(intValue)
     }
 }

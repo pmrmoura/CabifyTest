@@ -46,6 +46,8 @@ final class HomeViewController: UIViewController {
 
 extension HomeViewController {
     private func setupView() {
+        view.backgroundColor = .white
+        
         addChild(tableViewController)
         tableViewController.didMove(toParent: self)
         tableViewController.tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -66,7 +68,7 @@ extension HomeViewController {
 
             checkoutButton.heightAnchor.constraint(equalToConstant: 80)
         ])
-            }
+    }
     
     private func setupBindings() {}
     
@@ -131,7 +133,6 @@ extension HomeViewController {
         controller.tableView.rowHeight = UITableView.automaticDimension
         controller.tableView.estimatedRowHeight = UITableView.automaticDimension
         controller.tableView.separatorStyle = .none
-        controller.tableView.accessibilityIdentifier = "UITableViewController[1]"
         return controller
     }
     

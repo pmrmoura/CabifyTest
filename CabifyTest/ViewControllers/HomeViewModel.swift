@@ -25,7 +25,6 @@ final class HomeViewModel {
     private var cart = Cart()
     private var products: [Product] = []
     
-    // TODO: See a better place for this func
     private func updateSnapshot() {
         var snapshot = NSDiffableDataSourceSnapshot<Section, CellType>()
         snapshot.appendSections([.first])
@@ -33,6 +32,8 @@ final class HomeViewModel {
         self.snapshot.send(snapshot)
     }
 }
+
+// MARK: - External actions
 
 extension HomeViewModel {
     func fetchData() {
@@ -53,14 +54,18 @@ extension HomeViewModel {
         case .addProduct(let product):
             cart.addProduct(product)
         case .removeProduct(let product):
-            print(product)
+            cart.removeProduct(product)
         }
     }
     
     func checkoutButtonClicked() {
         checkoutButtonPublisher.send(cart)
     }
-    
+}
+
+// MARK: - Cell configurations
+
+extension HomeViewModel {
     private func makeCells() -> [CellType] {
         var cells: [CellType] = []
         

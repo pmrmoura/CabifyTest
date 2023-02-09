@@ -7,23 +7,22 @@
 
 import Foundation
 
-final class Discount {
-    // TODO: Think in other names more significant
-    let condition: Double
-    let reduction: Double
-    let discountType: DiscountType
+struct DiscountResponse: Codable {
+    let discounts: [Discount]
+}
+
+class Discount: Codable {
+    // TODO: Think in other names more significant // DONE
+    let numberOfPiecesNeeded: Double
+    let discountReceived: Double
+    let discountType: String
     let productCode: String
     
-    init(condition: Double, reduction: Double, discountType: DiscountType, productCode: String) {
-        self.condition = condition
-        self.reduction = reduction
-        self.discountType = discountType
-        self.productCode = productCode
-    }
+    lazy var discountTypeType = DiscountType(rawValue: discountType)
     
-    enum DiscountType {
-        // TODO: Change name for bulk discount and 2for1 discount
-        case perUnit,
-             unique
+    enum DiscountType: String {
+        // TODO: Change name for bulk discount and 2for1 discount // DONE
+        case bulk,
+             twoForOne
     }
 }

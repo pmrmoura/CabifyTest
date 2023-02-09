@@ -11,7 +11,7 @@ struct ProductResponse: Codable {
     let products: [Product]
 }
 
-struct Product: Codable {
+struct Product: Codable, Equatable {
     let code: String
     let name: String
     let price: Double
