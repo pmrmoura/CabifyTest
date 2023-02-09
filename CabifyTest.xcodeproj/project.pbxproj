@@ -10,6 +10,7 @@
 		C104F68F2994608200D68493 /* PriceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C104F68E2994608200D68493 /* PriceTableViewCell.swift */; };
 		C104F6912994608E00D68493 /* PriceTableViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C104F6902994608E00D68493 /* PriceTableViewCellViewModel.swift */; };
 		C104F6932994842200D68493 /* DiscountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C104F6922994842200D68493 /* DiscountService.swift */; };
+		C104F69629955DBD00D68493 /* AlertInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C104F69529955DBD00D68493 /* AlertInformation.swift */; };
 		C125C9C0298C18FA00A38A7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C125C9BF298C18FA00A38A7C /* AppDelegate.swift */; };
 		C125C9CA298C18FA00A38A7C /* CabifyTest.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C125C9C8298C18FA00A38A7C /* CabifyTest.xcdatamodeld */; };
 		C125C9CC298C18FC00A38A7C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C125C9CB298C18FC00A38A7C /* Assets.xcassets */; };
@@ -59,6 +60,7 @@
 		C104F68E2994608200D68493 /* PriceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceTableViewCell.swift; sourceTree = "<group>"; };
 		C104F6902994608E00D68493 /* PriceTableViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceTableViewCellViewModel.swift; sourceTree = "<group>"; };
 		C104F6922994842200D68493 /* DiscountService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscountService.swift; sourceTree = "<group>"; };
+		C104F69529955DBD00D68493 /* AlertInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertInformation.swift; sourceTree = "<group>"; };
 		C125C9BC298C18FA00A38A7C /* CabifyTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CabifyTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C125C9BF298C18FA00A38A7C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C125C9C9298C18FA00A38A7C /* CabifyTest.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CabifyTest.xcdatamodel; sourceTree = "<group>"; };
@@ -139,7 +141,7 @@
 		C125C9BE298C18FA00A38A7C /* CabifyTest */ = {
 			isa = PBXGroup;
 			children = (
-				C125CA04298C8D1C00A38A7C /* ViewControllers */,
+				C125CA04298C8D1C00A38A7C /* Flows */,
 				C125C9FB298C8CB800A38A7C /* Coordinators */,
 				C125C9F8298C8A6500A38A7C /* Models */,
 				C125C9F5298C89B800A38A7C /* Utils */,
@@ -185,6 +187,7 @@
 				C1D55D20298DCC4900B53CAF /* Extensions */,
 				C125C9F6298C89CD00A38A7C /* CustomError.swift */,
 				C1D55D25298DCEEF00B53CAF /* ViewModelHashable.swift */,
+				C104F69529955DBD00D68493 /* AlertInformation.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -209,7 +212,7 @@
 			path = Coordinators;
 			sourceTree = "<group>";
 		};
-		C125CA04298C8D1C00A38A7C /* ViewControllers */ = {
+		C125CA04298C8D1C00A38A7C /* Flows */ = {
 			isa = PBXGroup;
 			children = (
 				C1D55D29298DDA6A00B53CAF /* Classes */,
@@ -219,7 +222,7 @@
 				C125CA09298C8E3800A38A7C /* CheckoutViewController.swift */,
 				C125CA0B298C8E4000A38A7C /* CheckoutViewModel.swift */,
 			);
-			path = ViewControllers;
+			path = Flows;
 			sourceTree = "<group>";
 		};
 		C1D55D1B298DC9A000B53CAF /* Cells */ = {
@@ -392,6 +395,7 @@
 				C1D55D2B298DDA7300B53CAF /* Cart.swift in Sources */,
 				C1D92316299011FA003E2F6E /* DiscountModels.swift in Sources */,
 				C125C9C0298C18FA00A38A7C /* AppDelegate.swift in Sources */,
+				C104F69629955DBD00D68493 /* AlertInformation.swift in Sources */,
 				C125C9FF298C8CE200A38A7C /* AppCoordinator.swift in Sources */,
 				C125CA01298C8CEB00A38A7C /* HomeCoordinator.swift in Sources */,
 				C125CA0C298C8E4000A38A7C /* CheckoutViewModel.swift in Sources */,

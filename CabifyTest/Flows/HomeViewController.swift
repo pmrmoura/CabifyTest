@@ -13,7 +13,7 @@ final class HomeViewController: UIViewController {
     private typealias CellType = HomeViewModel.CellType
     
     private lazy var dataSource = makeDiffableDataSource()
-    
+
     private lazy var tableViewController = makeTableViewController()
     private var tableView: UITableView {
         tableViewController.tableView
@@ -38,7 +38,12 @@ final class HomeViewController: UIViewController {
         registerCells()
         setupView()
         setupTableViewSnapshotBinding()
+        setupBindings()
         viewModel.fetchData()
+    }
+    
+    enum Constants {
+        static let checkoutButtonTitle = "Checkout"
     }
 }
 
@@ -75,6 +80,14 @@ extension HomeViewController {
             checkoutButton.heightAnchor.constraint(equalToConstant: 80)
         ])
     }
+    
+    func setupBindings() {
+        viewModel.alertPublisher
+            .sink(receiveValue: { [weak self] alertInformation in
+                self?.presentAlertController(alertInformation: alertInformation)
+            })
+            .store(in: &cancelBag)
+    }
         
     private func registerCells() {
         tableView
@@ -97,13 +110,13 @@ extension HomeViewController {
 
 extension HomeViewController {
     private func cellForProductTableViewCellViewModel(viewModel: ProductTableViewCellViewModel, forIndexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeue(cellClass: ProductTableViewCell.self, indexPath: forIndexPath)
-        cell.render(viewModel: viewModel)
         viewModel.productOperationPublisher
             .sink(receiveValue: { [weak self] operation in
                 self?.viewModel.executeCartOperation(operation)
             })
             .store(in: &cancelBag)
+        let cell = tableView.dequeue(cellClass: ProductTableViewCell.self, indexPath: forIndexPath)
+        cell.render(viewModel: viewModel)
         return cell
     }
 }
@@ -143,8 +156,9 @@ extension HomeViewController {
     
     private func makeCheckoutButton() -> UIButton {
         var buttonConfiguration = UIButton.Configuration.filled()
-        buttonConfiguration.title = "Checkout"
+        buttonConfiguration.title = Constants.checkoutButtonTitle
         buttonConfiguration.baseBackgroundColor = UIColor.purple
+
         let button = UIButton(configuration: buttonConfiguration)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(checkoutButtonClicked), for: .touchUpInside)
@@ -155,5 +169,15 @@ extension HomeViewController {
         return UITableViewDiffableDataSource(tableView: tableView) { [weak self] _, indexPath, cellType in
             self?.cellForType(cellType, forIndexPath: indexPath)
         }
+    }
+}
+
+// MARK: - Alert configuration
+
+extension HomeViewController {
+    func presentAlertController(alertInformation: AlertInformation) {
+        let alert = UIAlertController(title: alertInformation.title, message: alertInformation.message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: alertInformation.buttonText, style: .default))
+        present(alert, animated: true, completion: nil)
     }
 }

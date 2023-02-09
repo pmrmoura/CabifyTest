@@ -17,22 +17,24 @@ final class ProductService {
         request.httpMethod = "GET"
         
         URLSession.shared.dataTask(with: request) { data, _, error in
-            if let error = error {
-                print(#function, "🧨 Request: \(request)\nError: \(error)")
-                return
-            }
-            
-            guard let data = data else {
-                completion(.failure(CustomError.noData))
-                return
-            }
-            
-            do {
-                let products = try JSONDecoder().decode(ProductResponse.self, from: data)
-                completion(.success(products.products))
-            } catch let error {
-                print(#function, "🧨 Request: \(request)\nError: \(error)")
-                completion(.failure(error))
+            DispatchQueue.main.async {
+                if let error = error {
+                    print(#function, "🧨 Request: \(request)\nError: \(error)")
+                    return
+                }
+                
+                guard let data = data else {
+                    completion(.failure(CustomError.noData))
+                    return
+                }
+                
+                do {
+                    let products = try JSONDecoder().decode(ProductResponse.self, from: data)
+                    completion(.success(products.products))
+                } catch let error {
+                    print(#function, "🧨 Request: \(request)\nError: \(error)")
+                    completion(.failure(error))
+                }
             }
         }.resume()
     }

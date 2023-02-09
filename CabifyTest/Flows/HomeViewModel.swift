@@ -13,6 +13,7 @@ final class HomeViewModel {
     
     let snapshot: CurrentValueSubject<NSDiffableDataSourceSnapshot<Section, CellType>, Never> = CurrentValueSubject(NSDiffableDataSourceSnapshot())
     let checkoutButtonPublisher = PassthroughSubject<Cart, Never>()
+    let alertPublisher = PassthroughSubject<AlertInformation, Never>()
     
     // MARK: Private properties
     
@@ -31,6 +32,12 @@ final class HomeViewModel {
         snapshot.appendItems(cells)
         self.snapshot.send(snapshot)
     }
+    
+    enum Constants {
+        static let errorAlertTitle = "Error"
+        static let cartEmptyAlertMessage = "The cart is empty, please add products"
+        static let defaultAlertButtonText = "OK"
+    }
 }
 
 // MARK: - External actions
@@ -44,7 +51,8 @@ extension HomeViewModel {
                     self?.products = products
                     self?.cells = self?.makeCells() ?? []
                 case .failure(let failure):
-                    print(failure.localizedDescription)
+                    let alertInformation = AlertInformation(title: Constants.errorAlertTitle, message: failure.localizedDescription, buttonText: Constants.defaultAlertButtonText)
+                    self?.alertPublisher.send(alertInformation)
                 }
             }
     }
@@ -59,6 +67,11 @@ extension HomeViewModel {
     }
     
     func checkoutButtonClicked() {
+        guard !cart.isCartEmpty() else {
+            let alertInformation = AlertInformation(title: Constants.errorAlertTitle , message: Constants.cartEmptyAlertMessage, buttonText: Constants.defaultAlertButtonText)
+            alertPublisher.send(alertInformation)
+            return
+        }
         checkoutButtonPublisher.send(cart)
     }
 }

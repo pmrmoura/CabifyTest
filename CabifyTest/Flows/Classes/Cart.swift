@@ -21,6 +21,10 @@ final class Cart {
         fetchActiveDiscounts()
     }
     
+    func isCartEmpty() -> Bool {
+        products.isEmpty
+    }
+    
     func addProduct(_ product: Product) {
         products.append(product)
         productsMap[product.code, default: 0] += 1
