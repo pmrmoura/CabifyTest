@@ -39,7 +39,6 @@
 		C1D55D22298DCC5700B53CAF /* UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D55D21298DCC5700B53CAF /* UITableView.swift */; };
 		C1D55D24298DCC6A00B53CAF /* UITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D55D23298DCC6A00B53CAF /* UITableViewCell.swift */; };
 		C1D55D26298DCEEF00B53CAF /* ViewModelHashable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D55D25298DCEEF00B53CAF /* ViewModelHashable.swift */; };
-		C1D55D28298DD13B00B53CAF /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D55D27298DD13B00B53CAF /* UIView.swift */; };
 		C1D55D2B298DDA7300B53CAF /* Cart.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D55D2A298DDA7300B53CAF /* Cart.swift */; };
 		C1D92316299011FA003E2F6E /* DiscountModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D92315299011FA003E2F6E /* DiscountModels.swift */; };
 /* End PBXBuildFile section */
@@ -98,7 +97,6 @@
 		C1D55D21298DCC5700B53CAF /* UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableView.swift; sourceTree = "<group>"; };
 		C1D55D23298DCC6A00B53CAF /* UITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewCell.swift; sourceTree = "<group>"; };
 		C1D55D25298DCEEF00B53CAF /* ViewModelHashable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelHashable.swift; sourceTree = "<group>"; };
-		C1D55D27298DD13B00B53CAF /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		C1D55D2A298DDA7300B53CAF /* Cart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cart.swift; sourceTree = "<group>"; };
 		C1D92315299011FA003E2F6E /* DiscountModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscountModels.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -296,7 +294,6 @@
 			children = (
 				C1D55D21298DCC5700B53CAF /* UITableView.swift */,
 				C1D55D23298DCC6A00B53CAF /* UITableViewCell.swift */,
-				C1D55D27298DD13B00B53CAF /* UIView.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -461,7 +458,6 @@
 				C104F68F2994608200D68493 /* PriceTableViewCell.swift in Sources */,
 				C1D55D1D298DC9B400B53CAF /* ProductTableViewCell.swift in Sources */,
 				C125CA08298C8D3600A38A7C /* HomeViewModel.swift in Sources */,
-				C1D55D28298DD13B00B53CAF /* UIView.swift in Sources */,
 				C104F6912994608E00D68493 /* PriceTableViewCellViewModel.swift in Sources */,
 				C125CA03298C8CFE00A38A7C /* RootViewCoordinator.swift in Sources */,
 				C1D55D22298DCC5700B53CAF /* UITableView.swift in Sources */,
