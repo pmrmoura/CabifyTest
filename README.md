@@ -34,7 +34,7 @@ For example, let's suppose the in the near future the Marketing team wants to cr
   **discountReceived**. Also, the **discountType** property is used for doing the logic inside the Cart class in the App. And finally the **productCode** is used
   for knowing what is the product.
   
-A idea to make this even easier to use is by integrating it into a BackOffice system where Marketing teams can easily add and remove discounts from the app.
+A idea to make this even easier to use is by integrating it into a Backoffice system where Marketing teams can easily add and remove discounts from the app.
   
   
 # Cart
