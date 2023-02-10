@@ -39,4 +39,4 @@ A idea to make this even easier to use is by integrating it into a Backoffice sy
   
 # Cart
 
-With the Single Responsability Principle in mind, I created a separate class "Cart" responsible for all the operations(adding, removing, calculatingPrices). Also in the Cart is where the Discounts are applied.
+With the Single Responsability Principle in mind, I created a separate class "Cart" responsible for all the operations(adding, removing, calculatingPrices).
