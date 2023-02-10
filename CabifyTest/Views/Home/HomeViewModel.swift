@@ -12,9 +12,10 @@ final class HomeViewModel {
     // MARK: Properties
     
     let snapshot: CurrentValueSubject<NSDiffableDataSourceSnapshot<Section, CellType>, Never> = CurrentValueSubject(NSDiffableDataSourceSnapshot())
+    let state: CurrentValueSubject<State, Never> = CurrentValueSubject(.idle)
     let checkoutButtonPublisher = PassthroughSubject<Cart, Never>()
     let alertPublisher = PassthroughSubject<AlertInformation, Never>()
-    let service: ProductServiceInterface
+    var products: [Product] = []
     var cart: Cart
     
     // MARK: Private properties
@@ -26,7 +27,7 @@ final class HomeViewModel {
     }
 
     private var cancelBag = Set<AnyCancellable>()
-    var products: [Product] = []
+    private let service: ProductServiceInterface
     
     init(service: ProductServiceInterface = ProductService(),
          cart: Cart = Cart()) {
@@ -42,8 +43,8 @@ final class HomeViewModel {
     }
     
     enum Constants {
-        static let errorAlertTitle = "Error"
         static let cartEmptyAlertMessage = "The cart is empty, please add products"
+        static let errorAlertTitle = "Error"
         static let defaultAlertButtonText = "OK"
     }
 }
@@ -52,21 +53,21 @@ final class HomeViewModel {
 
 extension HomeViewModel {
     func fetchData() {
+        state.send(.loading)
+        
         service.fetchAllProducts()
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { [weak self] result in
                 switch result {
                 case .failure(let error):
-                    let alertInformation = AlertInformation(title: Constants.errorAlertTitle, message: error.localizedDescription, buttonText: Constants.defaultAlertButtonText)
-                    self?.alertPublisher.send(alertInformation)
+                    self?.state.send(.error(error: error))
                 case .finished:
                     break
                 }
-            }, receiveValue: { [weak self] result in
-                print(result)
-                self?.products = result
-                print(self?.products)
+            }, receiveValue: { [weak self] products in
+                self?.products = products
                 self?.cells = self?.makeCells() ?? []
+                self?.state.send(.success)
             })
             .store(in: &cancelBag)
     }
@@ -117,5 +118,12 @@ extension HomeViewModel {
     
     enum Section: Hashable {
         case first
+    }
+    
+    enum State {
+        case idle,
+             loading,
+             success,
+             error(error: Error)
     }
 }

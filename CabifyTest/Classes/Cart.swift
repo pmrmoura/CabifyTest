@@ -10,7 +10,7 @@ import Combine
 
 final class Cart {
     var products: [Product]
-    var productsMap: [String: Double]
+    var productsMap: [String: Int]
     var activeDiscounts: [Discount]
     
     let service: DiscountServiceInterface
@@ -18,7 +18,7 @@ final class Cart {
     private var cancelBag = Set<AnyCancellable>()
     
     init(products: [Product] = [],
-         productsMap: [String: Double] = [:],
+         productsMap: [String: Int] = [:],
          activeDiscounts: [Discount] = [],
          service: DiscountServiceInterface = DiscountService()) {
         self.products = products
@@ -32,8 +32,8 @@ final class Cart {
         products.isEmpty
     }
     
-    func addProduct(_ product: Product, _ quantity: Double = 1) {
-        products.append(contentsOf: repeatElement(product, count: Int(quantity)))
+    func addProduct(_ product: Product, _ quantity: Int = 1) {
+        products.append(contentsOf: repeatElement(product, count: quantity))
         productsMap[product.code, default: 0] += quantity
     }
     
@@ -67,10 +67,10 @@ final class Cart {
             switch type {
             case .bulk:
                 if productCount >= $0.numberOfPiecesNeeded {
-                    discount += productCount * $0.discountReceived
+                    discount += Double(productCount) * $0.discountReceived
                 }
             case .oneForFree:
-                let numberOfTimesWillBeApplied = (Int(productCount)) / Int($0.numberOfPiecesNeeded)
+                let numberOfTimesWillBeApplied = productCount / $0.numberOfPiecesNeeded
 
                 discount += Double(numberOfTimesWillBeApplied) * $0.discountReceived
             }

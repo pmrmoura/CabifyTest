@@ -12,7 +12,7 @@ struct DiscountResponse: Codable {
 }
 
 final class Discount: Codable {
-    let numberOfPiecesNeeded: Double
+    let numberOfPiecesNeeded: Int
     let discountReceived: Double
     let discountType: String
     let productCode: String

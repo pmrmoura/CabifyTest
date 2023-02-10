@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-final class CheckoutViewController: UIViewController {
+final class CheckoutViewController: BaseViewController {
     // MARK: - Private properties
     private typealias CellType = CheckoutViewModel.CellType
     

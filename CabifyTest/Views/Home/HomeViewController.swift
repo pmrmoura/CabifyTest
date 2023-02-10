@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-final class HomeViewController: UIViewController {
+final class HomeViewController: BaseViewController {
     // MARK: - Private properties
     private typealias CellType = HomeViewModel.CellType
     
@@ -44,6 +44,9 @@ final class HomeViewController: UIViewController {
     
     enum Constants {
         static let checkoutButtonTitle = "Checkout"
+        static let errorAlertTitle = "Error"
+        static let cartEmptyAlertMessage = "The cart is empty, please add products"
+        static let defaultAlertButtonText = "OK"
     }
 }
 
@@ -86,6 +89,22 @@ extension HomeViewController {
             .sink(receiveValue: { [weak self] alertInformation in
                 self?.presentAlertController(alertInformation: alertInformation)
             })
+            .store(in: &cancelBag)
+        
+        viewModel.state
+            .sink { [weak self] state in
+                switch state {
+                case .idle:
+                    break
+                case .loading:
+                    self?.showLoading()
+                case .success:
+                    self?.stopLoading()
+                case .error(let error):
+                    let alertInformation = AlertInformation(title: Constants.errorAlertTitle, message: error.localizedDescription, buttonText: Constants.defaultAlertButtonText)
+                    self?.presentAlertController(alertInformation: alertInformation)
+                }
+            }
             .store(in: &cancelBag)
     }
         
@@ -169,15 +188,5 @@ extension HomeViewController {
         return UITableViewDiffableDataSource(tableView: tableView) { [weak self] _, indexPath, cellType in
             self?.cellForType(cellType, forIndexPath: indexPath)
         }
-    }
-}
-
-// MARK: - Alert configuration
-
-extension HomeViewController {
-    func presentAlertController(alertInformation: AlertInformation) {
-        let alert = UIAlertController(title: alertInformation.title, message: alertInformation.message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: alertInformation.buttonText, style: .default))
-        present(alert, animated: true, completion: nil)
     }
 }
